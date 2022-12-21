@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Features</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<style>
+   body {
+      height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+      padding: 40px 30px 18px 30px;
+      background: linear-gradient(90deg, rgb(60, 136, 236)0%, rgb(25, 82, 161)0%, rgb(48, 77, 136)37%, rgb(24, 64, 112)75%, rgb(73, 123, 192)100%);
+    }
+    .wrapper {
+      min-height: 90vh;
+      border-radius: 8px;
+      background: rgb(202, 213, 240)
+    }
+    .card
+    {
+      position:sticky;
+      height: 438px;
+      margin-top: 5%;
+      padding: 8px;
+      background: transparent;
+    }
+    .navbar-nav>li>a{
+      margin: 8px;
+      text-align: center;
+      border-radius: 10px;
+      background-color: rgb(135, 169, 231);
+      border: 1px solid rgb(148, 178, 235);
+    }
+    .navbar-nav>li>a:hover{
+      background-color: rgb(100, 128, 170);
+      color: white;
+    }
+    .active{
+      background-color: rgb(44, 101, 187)!important;
+      color: white!important;
+    }
+    @media (max-width:412px) {
+      .card{
+        height: auto;
+      }
+    }
+    section{
+      padding: 5px;
+      margin-top: 2%;
+    }
+.lost{
+    /* border : 1px solid red; */
+    height : 100vh ; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.lost h3{
+    margin-bottom: 50px;
+}
+</style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container-fluid" style="padding: 10px;padding-left: 20px;padding-bottom: 20px;">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="feature-list">
+            <div class="content card shadow">
+              <img src="\images\Day of people with disability-pana.svg" width="100%" height="100px" alt="">
+              <ul class="navbar-nav">
+                <li class="nav-item"><a href="/imageRecognition" id="1" class="nav-link ">Image Recognition System</a></li>
+                <li class="nav-item"><a href="/speechToText" id="2" class="nav-link">Convert speech to text</a></li>
+                <li class="nav-item"><a href="/sendMyLocation" class="nav-link active">Send My Location</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="lost">
+                <h3 style="margin-bottom: 1.5rem;">Are you lost ? </h3>
+                <button id="lostButton" style="border-radius: 10px;border: none;padding: 10px 25px;" onclick="getLocation()">Send My location</button>
+                <p id="pDemo"></p>
+                <p id="mapHolder"></p>
+            </div>
+        </div>
+      </div>
+    </div>
+   </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+<script>
+  $(document).ready(function(){
+   $(".navbar-nav>li>a").click(function(){
+    $(".navbar-nav>li>a").removeClass('active');
+    $(this).addClass('active');
+   })
+  });
+</script>
+<script>
+    let speakFunction = (message) => {
+  var msg = new SpeechSynthesisUtterance();
+  msg.text = message;
+  window.speechSynthesis.speak(msg);
+};
+
+  window.onload = function (event) {
+    speakFunction(
+      "You are on the send my location page right now please tap the screen 2 times to send your location to your close ones"
+    )
+  };
+
+    var x = document.getElementById("pDemo");
+    window.addEventListener("dblclick",function(){
+        getLocation();
+        speakFunction("Location send sucessfully"
+    )
+    })
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                // Success function
+                showPosition, 
+                // Error function
+                null, 
+                // Options. See MDN for details.
+                {
+                   enableHighAccuracy: true,
+                   timeout: 5000,
+                   maximumAge: 0
+                });
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    
+    // function showPosition(position) {
+    //     x.innerHTML="Latitude: " + position.coords.latitude + 
+    //     "<br>Longitude: " + position.coords.longitude;  
+    // }
+
+
+    function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "https://www.google.com/maps/search/?api=1&query="+position.coords.latitude+"%2C"+position.coords.longitude
+
+    document.getElementById("mapHolder").innerHTML = img_url
+
+    fetch("/getLocation", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            location: img_url,
+        }),
+    }).then(res=>{
+      console.log(res)
+      function getCookie(name) {
+       const value = `; ${document.cookie}`;
+       const parts = value.split(`; ${name}=`);
+       if (parts.length === 2) {
+         return parts.pop().split(";").shift();
+       }
+     }
+      console.log(getCookie('jwt'))
+      fetch('/getLocaionFromDb', {
+          method: "POST",
+
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization" : "Bearer "+ getCookie('jwt')
+          },
+          body: JSON.stringify({
+            phone:"+977 9816366094"
+        }),
+      }).then(res=>{
+          console.log(res)
+      })
+    })
+    
+  }
+
+    </script>
+</body>
+</html>

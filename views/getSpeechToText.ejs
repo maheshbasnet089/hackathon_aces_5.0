@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Features</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<style>
+   body {
+      height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+      padding: 40px 30px 18px 30px;
+      background: linear-gradient(90deg, rgb(60, 136, 236)0%, rgb(25, 82, 161)0%, rgb(48, 77, 136)37%, rgb(24, 64, 112)75%, rgb(73, 123, 192)100%);
+    }
+    .wrapper {
+      min-height: 90vh;
+      border-radius: 8px;
+      background: rgb(202, 213, 240)
+    }
+    .card
+    {
+      
+      position: sticky;
+      height: 438px;
+      margin-top: 5%;
+      padding: 8px;
+      background: transparent;
+    
+      
+    }
+    .navbar-nav>li>a{
+      margin: 8px;
+      text-align: center;
+      border-radius: 10px;
+      background-color: rgb(135, 169, 231);
+      border: 1px solid rgb(148, 178, 235);
+    }
+    .navbar-nav>li>a:hover{
+      background-color: rgb(100, 128, 170);
+      color: white;
+    }
+    .active{
+      background-color: rgb(44, 101, 187)!important;
+      color: white!important;
+    }
+    @media (max-width:412px) {
+      .card{
+        height: auto;
+      }
+    }
+    section{
+      padding: 5px;
+      margin-top: 2%;
+    }
+
+    form {
+        margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+ 
+        form * {
+            width: 50%;
+        }
+        button{
+          width: 630px;
+
+        }
+        textarea {
+            width: 630px;
+            height: 250px;
+            border-radius: 20px;
+            border: none;
+            padding: 25px;
+            font-size: 18px;
+        }
+ 
+        h1 {
+            text-align: center;
+        }
+        .btn1:hover,.btn2:hover{
+            background-color : rgb(135, 169, 231);
+        }
+</style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container-fluid" style="padding: 10px;padding-left: 20px;padding-bottom: 20px;">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="feature-list">
+            <div class="content card shadow" style="padding-top: 30px;">
+              <img src="\images\Day of people with disability-pana.svg" width="100%" height="100px" alt="">
+              <ul class="navbar-nav" style="padding-top: 10px;">
+                <li class="nav-item"><a href="imageRecognition" id="1" class="nav-link ">Image Recognition System</a></li>
+                <li class="nav-item"><a href="speechToText" id="2" class="nav-link active">Convert speech to text</a></li>
+                <li class="nav-item"><a href="sendMyLocation" class="nav-link">Send My Location</a></li>
+              </ul>
+              <!-- <img src="/images/undraw_pedestrian_crossing_l-6-jv.svg" width="100%" height="100px" alt=""> -->
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8" >
+            <h1>Speech To Text</h1>
+            <form>
+                <textarea  ></textarea>
+                <button type="submit" class='btn1' style="margin-top: 20px;padding: 11px; border-radius: 10px; border: none;">Speak!</button>
+                <button type="button" class="btn2" style="margin-top: 20px;padding: 11px; border-radius: 10px; border: none;">Stop</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+<script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+<script>
+  $(document).ready(function(){
+   $(".navbar-nav>li>a").click(function(){
+    $(".navbar-nav>li>a").removeClass('active');
+    $(this).addClass('active');
+   })
+  });
+</script>
+<script>
+   let speakFunction = (message) => {
+  var msg = new SpeechSynthesisUtterance();
+  msg.text = message;
+  window.speechSynthesis.speak(msg);
+};
+window.onload = function (event) {
+    speakFunction(
+      "You are on the speechToText page right now,double tab to start recording and hold space bar to stop"
+    )
+  };
+  window.addEventListener('dblclick',function(event){
+    spRec.start()
+  })
+
+  document.body.onkeyup = function(e) {
+  if (e.key == " " ||
+      e.code == "Space" ||      
+      e.keyCode == 32      
+  ) {
+    spRec.stop()
+    speakFunction(
+      "Your speech has been recorded sucessfully"
+    )
+  }
+}
+    let form = document.querySelector("form");
+    let sr = window.webkitSpeechRecognition || window.SpeechRecognition;
+    let spRec = new sr();
+    // spRec.lang = "nep";
+    spRec.lang = "en-GB";
+    spRec.continuous = true;
+    spRec.interimResults = true;
+    // console.log(spRec);
+    // form.addEventListener("submit", e => {
+    //     e.preventDefault();
+    //     spRec.start();
+    // })
+    spRec.onresult = res => {
+        let text = Array.from(res.results)
+            .map(r => r[0])
+            .map(txt => txt.transcript)
+            .join("");
+        if (text.includes("back")) {
+        return (window.location.replace = "/feature");
+      }
+        form[0].value = text;
+        // console.log(text);
+    }
+    // form[2].addEventListener("click", () => {
+    //     spRec.stop()
+    // })
+</script>
+<!-- <script src="./js/speechToText.js"></script> -->
+</body>
+</html>
